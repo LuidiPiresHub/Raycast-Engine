@@ -3,7 +3,9 @@ import { player } from '../config/player.js'
 import { world } from '../config/world.js'
 import { keysMap } from './keyboard.js'
 
-const { map, mapSizeY } = world
+const { map, mapSizeX, map3DSizeY } = world
+
+const canMove = (x, y) => map[y * mapSizeX + x] === 0
 
 export const movePlayer = (deltaTime) => {
   let nextX = player.x
@@ -28,33 +30,47 @@ export const movePlayer = (deltaTime) => {
     player.crouching = true
   }
 
+  const dirX = Math.cos(player.angle)
+  const dirY = Math.sin(player.angle)
+
+  const perpX = Math.cos(player.angle + Math.PI / 2)
+  const perpY = Math.sin(player.angle + Math.PI / 2)
+
   if (keysMap['KeyW']) {
     player.moving = true
-    nextX += Math.cos(player.angle) * speed * deltaTime
-    nextY += Math.sin(player.angle) * speed * deltaTime
+    nextX += dirX * speed * deltaTime
+    nextY += dirY * speed * deltaTime
   }
 
   if (keysMap['KeyS']) {
     player.moving = true
-    nextX -= Math.cos(player.angle) * speed * deltaTime
-    nextY -= Math.sin(player.angle) * speed * deltaTime
+    nextX -= dirX * speed * deltaTime
+    nextY -= dirY * speed * deltaTime
   }
 
   if (keysMap['KeyA']) {
     player.moving = true
-    nextX += Math.cos(player.angle - Math.PI / 2) * speed * deltaTime
-    nextY += Math.sin(player.angle - Math.PI / 2) * speed * deltaTime
+    nextX -= perpX * speed * deltaTime
+    nextY -= perpY * speed * deltaTime
   }
 
   if (keysMap['KeyD']) {
     player.moving = true
-    nextX += Math.cos(player.angle + Math.PI / 2) * speed * deltaTime
-    nextY += Math.sin(player.angle + Math.PI / 2) * speed * deltaTime
+    nextX += perpX * speed * deltaTime
+    nextY += perpY * speed * deltaTime
   }
 
-  // if (keysMap['ArrowLeft']) player.angle -= player.turnSpeed * deltaTime
+  if (keysMap['ArrowUp']) {
+    const nextPitch = camera.pitch += player.pitchSpeed
+    camera.pitch = Math.max(-map3DSizeY, Math.min(map3DSizeY, nextPitch));
+  }
+  if (keysMap['ArrowDown']) {
+    const nextPitch = camera.pitch -= player.pitchSpeed
+    camera.pitch = Math.max(-map3DSizeY, Math.min(map3DSizeY, nextPitch));
+  }
 
-  // if (keysMap['ArrowRight']) player.angle += player.turnSpeed * deltaTime
+  if (keysMap['ArrowLeft']) player.angle -= player.turnSpeed * deltaTime
+  if (keysMap['ArrowRight']) player.angle += player.turnSpeed * deltaTime
 
   const currentX = Math.floor(player.x)
   const currentY = Math.floor(player.y)
@@ -62,11 +78,11 @@ export const movePlayer = (deltaTime) => {
   const nextTileX = Math.floor(nextX)
   const nextTileY = Math.floor(nextY)
 
-  if (map[currentY * mapSizeY + nextTileX] === 0) {
+  if (canMove(nextTileX, currentY)) {
     player.x = nextX
   }
 
-  if (map[nextTileY * mapSizeY + currentX] === 0) {
+  if (canMove(currentX, nextTileY)) {
     player.y = nextY
   }
 }
