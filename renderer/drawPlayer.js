@@ -2,16 +2,16 @@ import { world } from '../config/world.js'
 import { player } from '../config/player.js'
 import { castRay } from '../core/castRay.js'
 import { camera } from '../config/camera.js'
+import { getCameraPlane } from '../core/getCameraPlane.js'
 
 const playerMap = document.querySelector('.playerMap')
 const playerMapCtx = playerMap.getContext('2d')
 
-const { minimapSize, mapSizeY, mapSizeX, pixelSizeY, pixelSizeX } = world
+const { minimapSize, pixelSizeY, pixelSizeX } = world
 
 playerMap.height = minimapSize
 playerMap.width = minimapSize
 
-const playerMinimapSize = 10
 const defaultArrowOptions = {
   color: 'red',
   tip: 2,
@@ -20,7 +20,7 @@ const defaultArrowOptions = {
   notch: 0.3,
 }
 
-export const drawArrow = (x, y, angle, size, options = defaultArrowOptions) => {
+const drawArrow = (x, y, angle, size, options = defaultArrowOptions) => {
   const dirX = Math.cos(angle)
   const dirY = Math.sin(angle)
 
@@ -55,17 +55,19 @@ export const drawArrow = (x, y, angle, size, options = defaultArrowOptions) => {
   playerMapCtx.fill()
 }
 
-const drawRays = () => {
-  const startAngle = player.angle - camera.fov / 2
-  const angleStep = camera.fov / (camera.minimapRays - 1)
+playerMapCtx.lineWidth = 5
+playerMapCtx.strokeStyle = 'lime'
 
-  playerMapCtx.lineWidth = 5
+const drawRays = () => {
+  const { dirX, dirY, planeX, planeY } = getCameraPlane()
 
   for (let i = 0; i < camera.minimapRays; i++) {
-    const angle = startAngle + i * angleStep
-    const { hitX, hitY } = castRay(angle)
+    const planeXPosition = 2 * (i + 0.5) / camera.minimapRays - 1
 
-    playerMapCtx.strokeStyle = 'lime'
+    const rayDirX = dirX + (planeX * planeXPosition)
+    const rayDirY = dirY + (planeY * planeXPosition)
+
+    const { hitX, hitY } = castRay(rayDirX, rayDirY)
 
     playerMapCtx.beginPath()
 
