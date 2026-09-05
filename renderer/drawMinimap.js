@@ -1,4 +1,3 @@
-import { player } from '../config/player.js'
 import { world } from '../config/world.js'
 
 const minimap = document.querySelector('.minimap')
@@ -29,5 +28,4 @@ export const drawMinimap = () => {
       )
     }
   }
-
 }

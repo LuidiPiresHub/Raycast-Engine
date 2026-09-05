@@ -6,14 +6,11 @@ export const updateCamera = (deltaTime) => {
   let targetEyeHeight = camera.normalEyeHeight
 
   if (player.crouching) {
-    // targetEyeHeight = camera.crouchEyeHeight
-
-    // targetFov = camera.crouchFov
+    targetEyeHeight = camera.crouchEyeHeight
 
     if (player.moving) {
       targetFov = camera.crouchFov
     }
-
   }
 
   if (player.running && player.moving) {
@@ -22,5 +19,5 @@ export const updateCamera = (deltaTime) => {
 
   const smooth = 8
   camera.fov += (targetFov - camera.fov) * smooth * deltaTime
-  // camera.eyeHeight += (targetEyeHeight - camera.eyeHeight) * smooth * deltaTime
+  camera.eyeHeight += (targetEyeHeight - camera.eyeHeight) * smooth * deltaTime
 }

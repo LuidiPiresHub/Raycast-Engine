@@ -3,13 +3,17 @@ export const keysMap = {
   'KeyA': false,
   'KeyS': false,
   'KeyD': false,
+  'ArrowUp': false,
+  'ArrowLeft': false,
+  'ArrowDown': false,
+  'ArrowRight': false,
   'ShiftLeft': false,
   'ControlLeft': false,
   'KeyC': false,
+  'Space': false,
 }
 
 export const updateKeysState = ({ code, type }) => {
   if (!(code in keysMap)) return
-  if (type === 'keydown') keysMap[code] = true
-  if (type === 'keyup') keysMap[code] = false
+  keysMap[code] = type === 'keydown'
 }

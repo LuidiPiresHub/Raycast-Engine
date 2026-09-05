@@ -4,14 +4,14 @@ import { world } from './world.js'
 export const camera = {
   fov: degToRad(80),
   walkFov: degToRad(80),
-  runFov: degToRad(90),
-  crouchFov: degToRad(70),
+  runFov: degToRad(82),
+  crouchFov: degToRad(78),
 
   pitch: 0,
 
-  // eyeHeight: 1,
-  // normalEyeHeight: 1,
-  // crouchEyeHeight: 0.6,
+  eyeHeight: 1,
+  normalEyeHeight: 1,
+  crouchEyeHeight: 0.4,
 
   minimapRays: world.minimapSize,
   map3DRays: world.map3DSizeX,

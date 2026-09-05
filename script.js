@@ -37,7 +37,7 @@ const setEvents = () => {
   document.addEventListener('mousemove', ({ movementX, movementY }) => {
     if (document.pointerLockElement === mainTag) {
       const sensitivityX = 0.002
-      const sensitivityY = 0.8
+      const sensitivityY = 1.3
       const nextPitch = camera.pitch - movementY * sensitivityY
 
       player.angle += movementX * sensitivityX
