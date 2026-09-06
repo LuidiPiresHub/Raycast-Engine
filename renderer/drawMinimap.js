@@ -14,8 +14,6 @@ const colorMap = {
 }
 
 export const drawMinimap = () => {
-  minimapCtx.clearRect(0, 0, minimapSize, minimapSize)
-
   for (let y = 0; y < mapSizeY; y++) {
     for (let x = 0; x < mapSizeX; x++) {
       const chunk = map[y * mapSizeX + x]
