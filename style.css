@@ -72,12 +72,15 @@ body {
   left: 10px;
   bottom: 10px;
   height: 30%;
-  border: 1px solid black;
+  aspect-ratio: 1 / 1;
+  border: 6px solid white;
+  border-radius: 16px;
 }
 
 .minimap {
   aspect-ratio: 1 / 1;
   height: 100%;
+  border-radius: 14px;
 }
 
 .playerMap {
