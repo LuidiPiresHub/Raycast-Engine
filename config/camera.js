@@ -4,8 +4,8 @@ import { world } from './world.js'
 export const camera = {
   fov: degToRad(80),
   walkFov: degToRad(80),
-  runFov: degToRad(82),
-  crouchFov: degToRad(78),
+  runFov: degToRad(80),
+  crouchFov: degToRad(80),
 
   pitch: 0,
 

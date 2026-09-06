@@ -3,7 +3,7 @@ import { map } from './map.js'
 const minimapSize = 500
 const map3DSizeX = 1920
 const map3DSizeY = 1080
-const wallHeight = 2
+const wallHeight = 3
 
 const mapSize = Math.sqrt(map.length)
 
