@@ -63,10 +63,8 @@ body {
 
 .map3D {
   background-color: black;
-  display: block;
-  aspect-ratio: 16 / 9;
-  width: min(100dvw, calc(100dvh * 16 / 9));
-  height: auto;
+  width: 100dvw;
+  height: 100%;
 }
 
 .minimapWrapper {
