@@ -15,6 +15,10 @@ let animationId = 0;
 let lastTime = 0
 let started = false
 
+const textures = {
+  wallTexture: null
+}
+
 const loop = (currentTime) => {
   const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.1)
   lastTime = currentTime
@@ -22,7 +26,7 @@ const loop = (currentTime) => {
   drawPlayer()
   movePlayer(deltaTime)
   updateCamera(deltaTime)
-  draw3DMap()
+  draw3DMap(textures)
   animationId = requestAnimationFrame(loop)
 }
 
@@ -68,10 +72,48 @@ const startGame = async () => {
   await mainTag.requestPointerLock()
 }
 
-const main = () => {
+const loadTexture = async ({ url, maxSize }) => {
+  const img = new Image()
+  img.src = url
+  await img.decode()
+
+  const w = img.width
+  const h = img.height
+
+  const scale = Math.min(
+    maxSize / w,
+    maxSize / h
+  )
+
+  const width = Math.max(1, Math.round(w * scale))
+  const height = Math.max(1, Math.round(h * scale))
+
+  const canvasAux = document.createElement('canvas')
+  const auxCtx = canvasAux.getContext('2d')
+
+  const repeats = Math.ceil(world.wallHeight)
+
+  canvasAux.width = width
+  canvasAux.height = height * repeats
+
+  for (let i = 0; i < repeats; i++) {
+    auxCtx.drawImage(img, 0, i * height, width, height)
+  }
+
+  return {
+    canvas: canvasAux,
+    canvasWidth: canvasAux.width,
+    canvasHeight: canvasAux.height,
+    textureWidth: width,
+    textureHeight: height,
+  }
+}
+
+const main = async () => {
+  textures.wallTexture = await loadTexture({ url: './assets/backrooms.png', maxSize: 512 })
   drawMinimap()
   drawPlayer()
-  draw3DMap()
+  draw3DMap(textures)
 
   mainTag.addEventListener('click', startGame);
 }

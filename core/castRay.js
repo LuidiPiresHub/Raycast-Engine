@@ -41,7 +41,9 @@ export const castRay = (rayDirX, rayDirY) => {
   const hitX = player.x + rayDirX * distance
   const hitY = player.y + rayDirY * distance
 
+  const wallX = side === 0 ?  hitY - Math.floor(hitY) : hitX - Math.floor(hitX)
+
   const facing = side === 0 ? Math.abs(rayDirX) : Math.abs(rayDirY)
 
-  return { hitX, hitY, side, facing, distance }
+  return { side, distance, hitX, hitY, wallX, facing }
 }
