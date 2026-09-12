@@ -8,6 +8,7 @@ export const camera = {
   crouchFov: degToRad(80),
 
   pitch: 0,
+  pitchLimit: degToRad(90),
 
   eyeHeight: 1,
   normalEyeHeight: 1,
@@ -15,5 +16,4 @@ export const camera = {
 
   minimapRays: world.minimapSize,
   map3DRays: world.map3DSizeX,
-
 }

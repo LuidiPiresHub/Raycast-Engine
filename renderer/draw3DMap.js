@@ -21,7 +21,7 @@ const FACING_WEIGHT = 0.3
 export const draw3DMap = ({ wallTexture }) => {
   map3DCtx.clearRect(0, 0, map3DSizeX, map3DSizeY)
 
-  const horizon = map3DSizeY / 2 + camera.pitch
+  const horizon = map3DSizeY / 2 + camera.pitch * map3DSizeY
 
   map3DCtx.fillStyle = 'rgb(172, 170, 90)'
   map3DCtx.fillRect(0, 0, map3DSizeX, horizon)
