@@ -10,7 +10,7 @@ export const player = {
   runSpeed: 6,
   crouchSpeed: 1,
   turnSpeed: 3,
-  pitchSpeed: 30,
+  pitchSpeed: 3,
 
   moving: false,
   running: false,

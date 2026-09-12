@@ -1,9 +1,10 @@
 import { camera } from '../config/camera.js'
 import { player } from '../config/player.js'
 import { world } from '../config/world.js'
+import { clamp } from '../utils/clamp.js'
 import { keysMap } from './keyboard.js'
 
-const { map, mapSizeX, map3DSizeY } = world
+const { map, mapSizeX } = world
 
 const canMove = (x, y) => map[y * mapSizeX + x] === 0
 
@@ -61,12 +62,13 @@ export const movePlayer = (deltaTime) => {
   }
 
   if (keysMap['ArrowUp']) {
-    const nextPitch = camera.pitch += player.pitchSpeed
-    camera.pitch = Math.max(-map3DSizeY, Math.min(map3DSizeY, nextPitch));
+    const nextPitch = camera.pitch + player.pitchSpeed * deltaTime
+    camera.pitch = clamp(nextPitch, -camera.pitchLimit, camera.pitchLimit)
   }
+
   if (keysMap['ArrowDown']) {
-    const nextPitch = camera.pitch -= player.pitchSpeed
-    camera.pitch = Math.max(-map3DSizeY, Math.min(map3DSizeY, nextPitch));
+    const nextPitch = camera.pitch - player.pitchSpeed * deltaTime
+    camera.pitch = clamp(nextPitch, -camera.pitchLimit, camera.pitchLimit)
   }
 
   if (keysMap['ArrowLeft']) player.angle -= player.turnSpeed * deltaTime

@@ -7,7 +7,7 @@ import { getCameraPlane } from '../core/getCameraPlane.js'
 const playerMap = document.querySelector('.playerMap')
 const playerMapCtx = playerMap.getContext('2d')
 
-const { minimapSize, pixelSizeY, pixelSizeX } = world
+const { minimapSize, cellSizeY, cellSizeX } = world
 
 playerMap.height = minimapSize
 playerMap.width = minimapSize
@@ -72,13 +72,13 @@ const drawRays = () => {
     playerMapCtx.beginPath()
 
     playerMapCtx.moveTo(
-      player.x * pixelSizeX,
-      player.y * pixelSizeY,
+      player.x * cellSizeX,
+      player.y * cellSizeY,
     )
 
     playerMapCtx.lineTo(
-      hitX * pixelSizeX,
-      hitY * pixelSizeY,
+      hitX * cellSizeX,
+      hitY * cellSizeY,
     )
 
     playerMapCtx.stroke()
@@ -91,9 +91,9 @@ export const drawPlayer = () => {
   drawRays()
 
   drawArrow(
-    player.x * pixelSizeX,
-    player.y * pixelSizeY,
+    player.x * cellSizeX,
+    player.y * cellSizeY,
     player.angle,
-    Math.min(pixelSizeX, pixelSizeY) * 0.8,
+    Math.min(cellSizeX, cellSizeY) * 0.8,
   )
 }

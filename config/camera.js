@@ -15,5 +15,5 @@ export const camera = {
   crouchEyeHeight: 0.4,
 
   minimapRays: world.minimapSize,
-  map3DRays: world.map3DSizeX,
+  map3DRays: world.canvas_width,
 }

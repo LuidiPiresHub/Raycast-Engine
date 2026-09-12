@@ -1,8 +1,8 @@
 import { map } from './map.js'
 
 const minimapSize = 500
-const map3DSizeX = 1920
-const map3DSizeY = 1080
+const canvas_width = 1920
+const canvas_height = 1080
 const wallHeight = 3
 
 const mapSize = Math.sqrt(map.length)
@@ -19,17 +19,17 @@ if (!Number.isInteger(mapSize)) {
 const mapSizeY = mapSize
 const mapSizeX = mapSize
 
-const pixelSizeY = minimapSize / mapSizeY
-const pixelSizeX = minimapSize / mapSizeX
+const cellSizeY = minimapSize / mapSizeY
+const cellSizeX = minimapSize / mapSizeX
 
 export const world = {
   map,
   minimapSize,
-  map3DSizeY,
-  map3DSizeX,
+  canvas_height,
+  canvas_width,
   wallHeight,
   mapSizeY,
   mapSizeX,
-  pixelSizeY,
-  pixelSizeX,
+  cellSizeY,
+  cellSizeX,
 }
