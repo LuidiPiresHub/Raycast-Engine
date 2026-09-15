@@ -1,85 +1,31 @@
 import { camera } from '../config/camera.js'
 import { world } from '../config/world.js'
-import { castRay } from '../core/castRay.js'
 import { getCameraPlane } from '../core/getCameraPlane.js'
+import { drawWalls } from './drawWalls.js'
+import { drawFloor } from './drawFloor.js'
+// import { drawCeiling } from './drawCeiling.js' 
 
 const map3D = document.querySelector('.map3D')
 const map3DCtx = map3D.getContext('2d')
 
-const { map3DSizeY, map3DSizeX, wallHeight } = world
+const { canvas_width, canvas_height } = world
 
-map3D.height = map3DSizeY
-map3D.width = map3DSizeX
+map3D.width = canvas_width
+map3D.height = canvas_height
 
-const columnWidth = map3DSizeX / camera.map3DRays
+export const draw3DMap = (textures) => {
+  const incio = performance.now()
 
-const MAX_LIGHT_DISTANCE = 30
-const MIN_BRIGHTNESS = 0.5
-const DISTANCE_WEIGHT = 0.7
-const FACING_WEIGHT = 0.3
+  const horizon = canvas_height / 2 + camera.pitch * canvas_height
+  const cameraPlane = getCameraPlane()
 
-export const draw3DMap = ({ wallTexture }) => {
-  map3DCtx.clearRect(0, 0, map3DSizeX, map3DSizeY)
+  const renderData = { ctx: map3DCtx, horizon, ...cameraPlane }
 
-  const horizon = map3DSizeY / 2 + camera.pitch * map3DSizeY
+  map3DCtx.clearRect(0, 0, canvas_width, canvas_height) // Remover depois
+  //  // drawCeiling(renderData, textures)
+  // drawFloor(renderData, textures)
+  drawWalls(renderData, textures)
 
-  map3DCtx.fillStyle = 'rgb(172, 170, 90)'
-  map3DCtx.fillRect(0, 0, map3DSizeX, horizon)
-
-  map3DCtx.fillStyle = 'rgb(143, 132, 65)'
-  map3DCtx.fillRect(0, horizon, map3DSizeX, map3DSizeY - horizon)
-
-  const { dirX, dirY, planeX, planeY } = getCameraPlane()
-
-  const topRelative = wallHeight - camera.eyeHeight
-  const bottomRelative = -camera.eyeHeight
-
-  for (let i = 0; i < camera.map3DRays; i++) {
-    const planeXPosition = 2 * (i + 0.5) / camera.map3DRays - 1
-
-    const rayDirX = dirX + (planeX * planeXPosition)
-    const rayDirY = dirY + (planeY * planeXPosition)
-
-    const { distance, wallX, facing } = castRay(rayDirX, rayDirY)
-
-    const topScreen = horizon - (topRelative / distance) * map3DSizeY
-    const bottomScreen = horizon - (bottomRelative / distance) * map3DSizeY
-
-    const clippedTop = Math.max(0, topScreen)
-    const clippedBottom = Math.min(map3DSizeY, bottomScreen)
-
-    const visibleHeight = clippedBottom - clippedTop
-
-    if (visibleHeight <= 0) continue
-
-    const x = i * columnWidth
-    const wallScreenHeight = bottomScreen - topScreen
-
-    const textureSourceY = ((clippedTop - topScreen) / wallScreenHeight) * wallTexture.canvasHeight
-
-    const textureSourceHeight = (visibleHeight / wallScreenHeight) * wallTexture.canvasHeight
-
-    const wallTextureX = Math.floor(wallX * wallTexture.textureWidth)
-
-    map3DCtx.drawImage(
-      wallTexture.canvas,
-
-      wallTextureX,
-      textureSourceY,
-      1,
-      textureSourceHeight,
-
-      Math.floor(x),
-      Math.floor(clippedTop),
-      Math.ceil(columnWidth),
-      Math.ceil(visibleHeight)
-    )
-
-    const distanceBrightness = Math.max(MIN_BRIGHTNESS, 1 - distance / MAX_LIGHT_DISTANCE)
-    const brightness = distanceBrightness * DISTANCE_WEIGHT + facing * FACING_WEIGHT
-    const darkness = 1 - brightness
-
-    map3DCtx.fillStyle = `rgba(0, 0, 0, ${darkness})`
-    map3DCtx.fillRect(Math.floor(x), topScreen, Math.ceil(columnWidth), wallScreenHeight)
-  }
+  const fim = performance.now()
+  console.log(`${(fim - incio).toFixed(2)} ms`)
 }
