@@ -12,6 +12,8 @@ export const movePlayer = (deltaTime) => {
   let nextX = player.x
   let nextY = player.y
   let speed = player.walkSpeed
+  let moveX = 0
+  let moveY = 0
 
   const isMoving =
     keysMap['KeyW'] ||
@@ -38,27 +40,30 @@ export const movePlayer = (deltaTime) => {
   const perpY = Math.sin(player.angle + Math.PI / 2)
 
   if (keysMap['KeyW']) {
-    player.moving = true
-    nextX += dirX * speed * deltaTime
-    nextY += dirY * speed * deltaTime
+    moveX += dirX
+    moveY += dirY
   }
 
   if (keysMap['KeyS']) {
-    player.moving = true
-    nextX -= dirX * speed * deltaTime
-    nextY -= dirY * speed * deltaTime
+    moveX -= dirX
+    moveY -= dirY
   }
 
   if (keysMap['KeyA']) {
-    player.moving = true
-    nextX -= perpX * speed * deltaTime
-    nextY -= perpY * speed * deltaTime
+    moveX -= perpX
+    moveY -= perpY
   }
 
   if (keysMap['KeyD']) {
-    player.moving = true
-    nextX += perpX * speed * deltaTime
-    nextY += perpY * speed * deltaTime
+    moveX += perpX
+    moveY += perpY
+  }
+
+  const moveLength = Math.hypot(moveX, moveY)
+
+  if (moveLength > 0) {
+    nextX += (moveX / moveLength) * speed * deltaTime
+    nextY += (moveY / moveLength) * speed * deltaTime
   }
 
   if (keysMap['ArrowUp']) {
