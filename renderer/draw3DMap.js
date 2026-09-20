@@ -1,9 +1,8 @@
 import { camera } from '../config/camera.js'
 import { world } from '../config/world.js'
 import { getCameraPlane } from '../core/getCameraPlane.js'
+import { drawFloorAndCeiling } from './drawFloorAndCeiling.js'
 import { drawWalls } from './drawWalls.js'
-import { drawFloor } from './drawFloor.js'
-// import { drawCeiling } from './drawCeiling.js' 
 
 const map3D = document.querySelector('.map3D')
 const map3DCtx = map3D.getContext('2d')
@@ -21,9 +20,7 @@ export const draw3DMap = (textures) => {
 
   const renderData = { ctx: map3DCtx, horizon, ...cameraPlane }
 
-  map3DCtx.clearRect(0, 0, canvas_width, canvas_height) // Remover depois
-  //  // drawCeiling(renderData, textures)
-  // drawFloor(renderData, textures)
+  drawFloorAndCeiling(renderData, textures)
   drawWalls(renderData, textures)
 
   const fim = performance.now()

@@ -7,13 +7,13 @@ const { canvas_width, canvas_height, wallHeight } = world
 const columnWidth = canvas_width / camera.map3DRays
 
 const MAX_LIGHT_DISTANCE = 24
-const MIN_BRIGHTNESS = 0.06
+const MIN_BRIGHTNESS = 0.10
 const BRIGHTNESS_RANGE = 1 - MIN_BRIGHTNESS
 
-const FACING_WEIGHT = 0.4
+const FACING_WEIGHT = 0.35
 const FACING_BASE = 1 - FACING_WEIGHT
 
-const FLASHLIGHT_AMBIENT = 0.05
+const FLASHLIGHT_AMBIENT = 0.10
 const FLASHLIGHT_RANGE = 1 - FLASHLIGHT_AMBIENT
 const FLASHLIGHT_POWER = 2.8
 
@@ -47,12 +47,6 @@ export const drawWalls = (renderData, textures) => {
   } = renderData
 
   const { wallTexture } = textures
-
-  ctx.fillStyle = 'rgb(172, 170, 90, 0.2)'
-  ctx.fillRect(0, 0, canvas_width, horizon)
-
-  ctx.fillStyle = 'rgb(143, 132, 65, 0.2)'
-  ctx.fillRect(0, horizon, canvas_width, canvas_height - horizon)
 
   const topRelative = wallHeight - camera.eyeHeight
   const bottomRelative = -camera.eyeHeight

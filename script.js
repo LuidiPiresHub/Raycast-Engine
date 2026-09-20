@@ -10,7 +10,7 @@ const mainTag = document.querySelector('.main')
 const menu = document.querySelector('.menu')
 
 const textures = {
-  wallTexture: null
+  wallTexture: null,
 }
 
 const gameLoop = createGameLoop({
@@ -33,10 +33,7 @@ const startGame = async () => {
 }
 
 const main = async () => {
-  textures.wallTexture = await loadTexture({
-    url: './assets/backrooms.png',
-    maxSize: 512
-  })
+  textures.wallTexture = await loadTexture({ url: './assets/BackroomsWall.png', maxSize: 512, repeat: true })
 
   drawMinimap()
   drawPlayer()

@@ -9,8 +9,8 @@ minimap.height = minimapSize
 minimap.width = minimapSize
 
 const colorMap = {
-  0: 'white',
-  1: 'black',
+  0: 'rgb(180, 180, 180)',
+  1: 'rgb(0, 0, 0)',
 }
 
 export const drawMinimap = () => {
