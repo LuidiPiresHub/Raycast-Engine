@@ -1,3 +1,7 @@
+:root {
+  --stamina: 100%
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +28,44 @@ body {
 
 .gameWrapper {
   position: relative;
+}
+
+.hud {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding: 0.5rem;
+}
+
+.staminaBar {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background-color: gray;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.staminaBar::before,
+.staminaBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: calc(var(--stamina) / 2);
+  height: 100%;
+  background-color: white;
+}
+
+.staminaBar::before {
+  right: 50%;
+  border-radius: 50px 0 0 50px;
+}
+
+.staminaBar::after {
+  left: 50%;
+  border-radius: 0 50px 50px 0;
 }
 
 .menu {
@@ -69,11 +111,11 @@ body {
 
 .minimapWrapper {
   position: absolute;
-  left: 10px;
-  bottom: 10px;
+  left: 20px;
+  bottom: 20px;
   height: 30%;
   aspect-ratio: 1 / 1;
-  border: 6px solid rgb(180, 180, 180);
+  border: 6px solid white;
   border-radius: 16px;
 }
 

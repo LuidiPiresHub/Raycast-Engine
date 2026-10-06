@@ -6,20 +6,6 @@ const { canvas_width, canvas_height, wallHeight } = world
 
 const columnWidth = canvas_width / camera.map3DRays
 
-const MAX_LIGHT_DISTANCE = 24
-const MIN_BRIGHTNESS = 0.10
-const BRIGHTNESS_RANGE = 1 - MIN_BRIGHTNESS
-
-const FACING_WEIGHT = 0.35
-const FACING_BASE = 1 - FACING_WEIGHT
-
-const FLASHLIGHT_AMBIENT = 0.10
-const FLASHLIGHT_RANGE = 1 - FLASHLIGHT_AMBIENT
-const FLASHLIGHT_POWER = 2.8
-
-const VERTICAL_SPREAD = 1.35
-const HALF_CANVAS_HEIGHT = canvas_height * 0.5
-
 const rayPositions = new Float32Array(camera.map3DRays)
 const rayHorizontal = new Float32Array(camera.map3DRays)
 const rayScreenX = new Float32Array(camera.map3DRays)
@@ -86,30 +72,5 @@ export const drawWalls = (renderData, textures) => {
       Math.ceil(visibleHeight)
     )
 
-    const distanceFactor = Math.max(0, 1 - distance / MAX_LIGHT_DISTANCE)
-    const distanceBrightness = MIN_BRIGHTNESS + BRIGHTNESS_RANGE * distanceFactor * distanceFactor
-    const horizontal = rayHorizontal[i]
-    const wallCenter = (clippedTop + clippedBottom) * 0.5
-    const vertical = (wallCenter - horizon) / HALF_CANVAS_HEIGHT
-    const verticalNormalized = vertical / VERTICAL_SPREAD
-
-    const flashlightDistance = Math.sqrt(
-      horizontal * horizontal +
-      verticalNormalized * verticalNormalized
-    )
-
-    const flashlightShape = Math.max(0, 1 - flashlightDistance)
-    const flashlightFactor = FLASHLIGHT_AMBIENT + FLASHLIGHT_RANGE * Math.pow(flashlightShape, FLASHLIGHT_POWER)
-    const facingBrightness = FACING_BASE + facing * FACING_WEIGHT
-    const brightness = distanceBrightness * flashlightFactor * facingBrightness
-    const darkness = 1 - brightness
-
-    ctx.fillStyle = `rgba(0, 0, 0, ${darkness})`
-    ctx.fillRect(
-      Math.floor(x),
-      Math.floor(clippedTop),
-      Math.ceil(columnWidth),
-      Math.ceil(visibleHeight)
-    )
   }
 }

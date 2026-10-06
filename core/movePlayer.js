@@ -21,23 +21,33 @@ export const movePlayer = (deltaTime) => {
     keysMap['KeyA'] ||
     keysMap['KeyD']
 
-  player.moving = isMoving
-  player.running = false
-  player.crouching = false
+  const isRunning = keysMap['ShiftLeft'] && player.moving
+  const isCrouching = keysMap['ControlLeft'] || keysMap['KeyC']
 
-  if (keysMap['ShiftLeft'] && player.moving) {
+  player.moving = isMoving
+  player.running = isRunning && player.stamina > 0
+  player.crouching = isCrouching && !player.running
+
+  if (player.running) {
     speed = player.runSpeed
-    player.running = true
-  } else if (keysMap['ControlLeft'] || keysMap['KeyC']) {
+    player.stamina -= player.staminaDrainRate * deltaTime
+  } else if (player.crouching) {
     speed = player.crouchSpeed
-    player.crouching = true
   }
+
+  if (!isRunning) {
+    player.stamina += player.staminaRecoveryRate * deltaTime
+  }
+
+  player.stamina = clamp(player.stamina, 0, 100)
+
+  document.documentElement.style.setProperty('--stamina', `${player.stamina}%`)
 
   const dirX = Math.cos(player.angle)
   const dirY = Math.sin(player.angle)
 
-  const perpX = Math.cos(player.angle + Math.PI / 2)
-  const perpY = Math.sin(player.angle + Math.PI / 2)
+  const perpX = -dirY
+  const perpY = dirX
 
   if (keysMap['KeyW']) {
     moveX += dirX

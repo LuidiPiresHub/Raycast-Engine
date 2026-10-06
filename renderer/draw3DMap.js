@@ -13,7 +13,7 @@ map3D.width = canvas_width
 map3D.height = canvas_height
 
 export const draw3DMap = (textures) => {
-  const incio = performance.now()
+  // const incio = performance.now()
 
   const horizon = canvas_height / 2 + camera.pitch * canvas_height
   const cameraPlane = getCameraPlane()
@@ -23,6 +23,6 @@ export const draw3DMap = (textures) => {
   drawFloorAndCeiling(renderData, textures)
   drawWalls(renderData, textures)
 
-  const fim = performance.now()
-  console.log(`${(fim - incio).toFixed(2)} ms`)
+  // const fim = performance.now()
+  // console.log(`${(fim - incio).toFixed(2)} ms`)
 }

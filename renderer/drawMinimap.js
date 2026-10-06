@@ -9,7 +9,7 @@ minimap.height = minimapSize
 minimap.width = minimapSize
 
 const colorMap = {
-  0: 'rgb(180, 180, 180)',
+  0: 'rgb(255, 255, 255)',
   1: 'rgb(0, 0, 0)',
 }
 

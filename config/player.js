@@ -12,6 +12,10 @@ export const player = {
   turnSpeed: 3,
   pitchSpeed: 3,
 
+  stamina: 100,
+  staminaDrainRate: 15,
+  staminaRecoveryRate: 15,
+
   moving: false,
   running: false,
   crouching: false,
